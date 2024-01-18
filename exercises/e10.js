@@ -1,43 +1,22 @@
 export const getFirstPromiseOrFail = (promises) => {
-  let hasResolved = false;
-  return Promise.race([
-    ...promises.map(p => p.then(res => {
-      hasResolved = true;
-      return res;
-    })),
-    Promise.all(promises.map(p => p.catch(e => {
-      if (!hasResolved) throw e;
-    })))
-  ]);
+  return Promise.race(promises);
 };
 
 export const getFirstResolvedPromise = (promises) => {
-  return new Promise((resolve, reject) => {
-    let rejectionCount = 0;
-
-    promises.forEach(p => {
-      p.then(resolve)
-        .catch(() => {
-          rejectionCount++;
-          if (rejectionCount === promises.length) {
-            reject(new Error("All promises were rejected"));
-          }
-        });
-    });
-  });
+  return Promise.any(promises);
 };
 
 
 
 export const getQuantityOfRejectedPromises = (promises) => {
   return Promise.all(promises.map(p => p.catch(() => 'rejected')))
-                .then(results => results.filter(r => r === 'rejected').length);
+                .then(results => results.filter(rejectedPromise => rejectedPromise === 'rejected').length);
 };
 
 
 export const getQuantityOfFulfilledPromises = (promises) => {
   return Promise.allSettled(promises)
-                .then(results => results.filter(r => r.status === 'fulfilled').length);
+                .then(results => results.filter(fulfilledPromise => fulfilledPromise.status === 'fulfilled').length);
 };
 
 

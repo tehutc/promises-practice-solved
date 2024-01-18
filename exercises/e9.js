@@ -38,11 +38,8 @@
  */
 
  export function onReject(error) {
-  if (error && typeof error === 'object' && error.message) {
-    console.log(error.message);
-  } else {
-    console.log(error);
-  }
+  const valueToLog = error.message || error;
+  console.log(valueToLog);
 }
 
 

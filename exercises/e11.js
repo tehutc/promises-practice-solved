@@ -41,16 +41,6 @@ const getLoginList = (data) => {
 */
 
 const getData = fetch(usersUrl)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    return response.json();
-  })
-  .catch(error => {
-    console.error('Fetch error:', error.message);
-    return []; // Return an empty array in case of an error
-  });
 
 
 /**
@@ -65,6 +55,7 @@ const getData = fetch(usersUrl)
 */
 
 export const result = getData
+  .then((res) => res.json())
   .then(data => {
     const logins = getLoginList(data);
     console.log(logins);

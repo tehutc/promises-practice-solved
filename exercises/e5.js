@@ -21,7 +21,9 @@
  */
 
  export const getPromise = () => {
-  return Promise.resolve('MANHATTAN').then(attachTitle).then((title) => {
+  return Promise.resolve('MANHATTAN')
+  .then(attachTitle)
+  .then((title) => {
     console.log(title);
     return title;
   });
